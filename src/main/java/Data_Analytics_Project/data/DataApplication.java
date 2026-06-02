@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class DataApplication implements CommandLineRunner {
@@ -21,30 +23,45 @@ public class DataApplication implements CommandLineRunner {
         Dotenv dotenv = Dotenv.load();
         String filePath = dotenv.get("CSV_FILE_PATH");
 
-        System.out.println("\n--- STARTING FILE READING ---");
-        System.out.println("Configured path: " + filePath + "\n");
+        System.out.println("Carregando: " + filePath + "\n");
 
         String separator = ";";
         String line = "";
 
+        List<StateData> listaDeEstados = new ArrayList<>();
+
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
-            int totalLines = 0;
 
             while ((line = bufferedReader.readLine()) != null) {
-                totalLines++;
 
-                // Prints the original line to test if the file is being read correctly
-                System.out.println("Line " + totalLines + ": " + line);
+                String[] columns = line.split(separator);
+
+                if (columns.length >= 3) {
+                    StateData stateData = new StateData();
+                    stateData.setCodigo(columns[0].trim());
+                    stateData.setEstado(columns[1].trim());
+                    stateData.setPopulacao(columns[2].trim());
+
+                    listaDeEstados.add(stateData);
+
+                }
             }
-
-            if (totalLines == 0) {
-                System.out.println("WARNING: The file is completely empty!");
-            } else {
-                System.out.println("\n--- END OF READING: " + totalLines + " lines read ---");
-            }
-
         } catch (IOException e) {
-            System.out.println("CRITICAL ERROR while opening file: " + e.getMessage());
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
+        if (!listaDeEstados.isEmpty()) {
+            String format =  "%-15s %-20s %-20s%n";
+
+            System.out.println();
+            System.out.printf(format, "Código", "Estado", "População");
+
+            for (StateData stateDate : listaDeEstados) {
+                System.out.printf(format, stateDate.getCodigo(), stateDate.getEstado(), stateDate.getPopulacao());
+            }
+            System.out.println();
+        }else {
+            System.out.println("Nenhum registro encontrado!");;
+
+    }
     }
 }

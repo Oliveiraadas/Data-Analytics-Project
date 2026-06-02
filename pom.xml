@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>Data-Analytics-Project</groupId>
 	<artifactId>data</artifactId>
@@ -51,6 +51,13 @@
             <artifactId>dotenv-java</artifactId>
             <version>2.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
 	</dependencies>
 
 	<build>
