@@ -53,7 +53,7 @@ public class DataApplication implements CommandLineRunner {
             String format =  "%-15s %-20s %-20s%n";
 
             System.out.println();
-            System.out.printf(format, "Código", "Estado", "População");
+            //System.out.printf(format, "Código", "Estado", "População"); Eu quero que lê o Cabeçalho do arquivo e não este!
 
             for (StateData stateDate : listaDeEstados) {
                 System.out.printf(format, stateDate.getCodigo(), stateDate.getEstado(), stateDate.getPopulacao());
